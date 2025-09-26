@@ -1,2 +1,0 @@
-timestamp,raw_file,export_file,n_total_raw,n_total_cleaned,n_removed_official,n_nulls,pct_nulls,avg_length_clean_text
-2025-09-26 08:11:27,../data/raw/free tweet export 2.csv,../data/silver/tweets_cleaned_1.csv,6375,3051,3324,0,0.0,141.92
