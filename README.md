@@ -17,7 +17,7 @@ L’objectif est d’améliorer la qualité du service client en automatisant la
 
 ## 🧱 Architecture technique
 
-![Architecture SAVIA](./images/technical_architecture.png)
+![Architecture SAVIA](./images/Architecture_diagramm.png)
 
 ### 🔹 Frontend (repo courant : `SAVIA`)
 
@@ -58,3 +58,4 @@ L’objectif est d’améliorer la qualité du service client en automatisant la
 git clone git@github.com:el-cer/SAVIA.git
 cd SAVIA
 docker-compose up --build
+
