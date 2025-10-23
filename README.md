@@ -32,7 +32,6 @@ Il orchestre le pipeline de traitement et les interactions avec les modèles de 
 Endpoints disponibles :  
 - `/classify` → classification sémantique et catégorisation des tweets  
 - `/chat_sav` → génération de réponse via LLM  
-- `/metrics` → exposition des métriques Prometheus (latence, charge, volume traité)
 
 Deux modes de modèles sont pris en charge :  
 - **Local** : Mistral 7B via `llama.cpp` (modèle exécuté sur machine locale)  
@@ -83,3 +82,4 @@ SAVIA/
 ├── quality/                      # Logs et rapports de qualité
 ├── images/                       # Diagrammes et schémas d'architecture
 └── README.md
+
