@@ -20,6 +20,9 @@ SAVIA combine plusieurs briques techniques permettant de couvrir l’ensemble du
 
 ## 2. Architecture technique
 
+### Diagramme Architecture
+![Architecture SAVIA](./images/Architecture.png)
+
 ### Frontend — `SAVIA`
 Interface utilisateur développée en **Next.js**.  
 Elle permet d’interagir avec le chatbot et de consulter les données enrichies.  
@@ -82,4 +85,5 @@ SAVIA/
 ├── quality/                      # Logs et rapports de qualité
 ├── images/                       # Diagrammes et schémas d'architecture
 └── README.md
+
 
