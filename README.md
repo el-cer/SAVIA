@@ -87,4 +87,29 @@ SAVIA/
 └── README.md
 
 
+## 5. Lancer le frontend Next.js (interface utilisateur)
+
+###  Prérequis
+- **Node.js ≥ 18**
+- **npm** ou **yarn**
+- Backend FastAPI actif sur :
+  - `http://localhost:8000` (local)
+  - ou `https://savia-api.elcer.dev` (Cloudflare Tunnel)
+
+---
+
+### Étapes d’installation et exécution directe
+
+Copie-colle simplement ce bloc pour tout faire d’un coup 👇
+
+```bash
+#  Aller dans le dossier frontend
+cd SAVIA/frontend
+
+#  Installer les dépendances
+npm install
+
+
+#  Lancer le serveur de développement
+npm run dev
 
