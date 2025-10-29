@@ -84,9 +84,9 @@ SAVIA/
 │   └── gold/                     # Données enrichies
 ├── quality/                      # Logs et rapports de qualité
 ├── images/                       # Diagrammes et schémas d'architecture
-└── README.md
+└── README.md ```
 
-
+---
 ## 5. Lancer le frontend Next.js (interface utilisateur)
 
 ###  Prérequis
@@ -100,7 +100,7 @@ SAVIA/
 
 ### Étapes d’installation et exécution directe
 
-Copie-colle simplement ce bloc pour tout faire d’un coup 👇
+
 
 ```bash
 #  Aller dans le dossier frontend
@@ -112,4 +112,5 @@ npm install
 
 #  Lancer le serveur de développement
 npm run dev
+
 
