@@ -15,23 +15,19 @@ export default function ChatPage() {
   const [selectedService, setSelectedService] = useState("");
   const [selectedIssue, setSelectedIssue] = useState("");
 
-  // 🔹 Dictionnaire des sous-catégories selon le service
   const subCategories: Record<string, string[]> = {
     Box: ["Wi-Fi", "TV", "Alimentation", "Internet"],
     Mobile: ["Réseau", "Forfait", "Appels", "Data"],
   };
 
-  // 🔹 Fonction d’envoi au backend LLM
-  const sendMessage = async (prompt: string) => {
+  const sendMessage = async (apiPrompt: string) => {
     setLoading(true);
-    setHistory((prev) => [...prev, { question: prompt, answer: "" }]);
-
     try {
-      const res = await fetch("http://192.168.1.173:8000/chat_sav", {
+      const res = await fetch("https://saviapi.win/chat_sav", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt,
+          prompt: apiPrompt,
           model_selected: selectedModel || "Mistral-medium",
         }),
       });
@@ -45,16 +41,14 @@ export default function ChatPage() {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
         partialText += decoder.decode(value, { stream: true });
-
         setHistory((prev) => {
           const updated = [...prev];
           updated[updated.length - 1].answer = partialText;
           return updated;
         });
       }
-    } catch (err) {
+    } catch {
       setHistory((prev) => {
         const updated = [...prev];
         updated[updated.length - 1].answer = "❌ Erreur lors de l'appel à l’API.";
@@ -65,14 +59,12 @@ export default function ChatPage() {
     }
   };
 
-  // 🔹 Étape 1 — Choix du service
   const handleCategorieClick = (service: string) => {
     setSelectedService(service);
     setHistory((prev) => [
       ...prev,
       { question: service, answer: `Très bien. Quel type de problème rencontrez-vous avec ${service.toLowerCase()} ?` },
     ]);
-
     if (service === "Autres") {
       setStep("description");
     } else {
@@ -80,7 +72,6 @@ export default function ChatPage() {
     }
   };
 
-  // 🔹 Étape 2 — Choix du type de problème
   const handleSousCategorieClick = (issue: string) => {
     setSelectedIssue(issue);
     setStep("description");
@@ -93,34 +84,23 @@ export default function ChatPage() {
     ]);
   };
 
-  // 🔹 Étape 3 — Saisie du problème et envoi
-const handleSend = () => {
-  if (!input.trim()) return;
-
-  // 🧠 Prompt complet envoyé à l'API (non affiché côté front)
-  const fullPrompt = `
+  const handleSend = () => {
+    if (!input.trim()) return;
+    const fullPrompt = `
 Tu es un assistant technique du support Free.
 Voici le contexte utilisateur :
 Service : ${selectedService}
 Type de problème : ${selectedIssue || "Autres"}
 Description : ${input}
 Donne une réponse claire, empathique et réaliste (sans inventer).
-`;
+`.trim();
+    const userVisibleMessage = input.trim();
+    setHistory((prev) => [...prev, { question: userVisibleMessage, answer: "" }]);
+    setInput("");
+    setStep("chat");
+    sendMessage(fullPrompt);
+  };
 
-  // 💬 Message utilisateur visible dans le chat
-  const userVisibleMessage = input.trim();
-
-  // Réinitialisation champ + passage au chat
-  setInput("");
-  setStep("chat");
-
-  // Envoi au backend avec le prompt enrichi
-  sendMessage(fullPrompt);
-
-  // Mise à jour historique avec message simple (sans contexte technique)
-  setHistory((prev) => [...prev, { question: userVisibleMessage, answer: "" }]);
-};
-  // 🔹 Initialisation message d’accueil
   useEffect(() => {
     if (history.length === 0) {
       setHistory([{ question: "", answer: "Sur quel type de service avez-vous un problème ?" }]);
@@ -129,7 +109,6 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
 
   return (
     <main className="min-h-screen bg-white text-black flex flex-col font-['Raleway']">
-      {/* HEADER */}
       <header className="border-b px-6 py-4 flex items-center justify-between bg-gray-50 shadow-sm">
         <div className="flex items-center gap-3">
           <a href="https://www.free.fr" target="_blank" rel="noopener noreferrer">
@@ -143,7 +122,6 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
         </div>
       </header>
 
-      {/* CHAT SECTION */}
       <section className="flex-1 max-w-2xl w-full mx-auto px-4 py-8 overflow-y-auto">
         {history.map((entry, i) => (
           <div key={i} className="mb-6">
@@ -162,7 +140,6 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
           </div>
         ))}
 
-        {/* ÉTAPE 1 : CHOIX DU SERVICE */}
         {step === "categorie" && (
           <div className="flex flex-wrap gap-3 justify-center mt-6">
             {["Box", "Mobile", "Autres"].map((cat) => (
@@ -177,7 +154,6 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
           </div>
         )}
 
-        {/* ÉTAPE 2 : SOUS-CATÉGORIE SELON SERVICE */}
         {step === "sousCategorie" && selectedService in subCategories && (
           <div className="flex flex-wrap gap-3 justify-center mt-6">
             {subCategories[selectedService].map((subCat) => (
@@ -193,7 +169,6 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
         )}
       </section>
 
-      {/* ÉTAPE 3 : DESCRIPTION */}
       {(step === "description" || step === "chat") && (
         <footer className="border-t bg-white p-4 flex items-center justify-center">
           <div className="flex items-center gap-2 w-full max-w-2xl">

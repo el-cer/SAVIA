@@ -1,0 +1,14 @@
+# secrets & env
+.env
+.env.*
+*.env
+.env.local
+
+
+
+# notebooks checkpoints
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+.vscode/
