@@ -5,7 +5,7 @@ import json
 API_URL = "https://saviapi.win/classify"
 
 MODEL = "Mistral-7B-Instruct"
-tweet = "Je n'ai plus de connexion Internet depuis ce matin, ma box clignote rouge."
+tweet = "Je n'ai plus de connexion Internet depuis ce matin, ma box clignote rouge. #freemerde"
 
 payload = {
         "prompt": tweet,
