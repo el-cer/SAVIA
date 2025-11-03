@@ -6,7 +6,7 @@ from datetime import datetime
 RAW_PATH = "../data/raw/free tweet export 2.csv"
 timestamp = datetime.now().strftime("%Y-%m-%d_%Hh%M")
 print(f"{timestamp}")
-SILVER_PATH = f"../data/silver/tweets_cleaned_1.csv"
+SILVER_PATH = f"../data/silver/tweets_cleane_2.csv"
 QUALITY_LOG_PATH  = "../quality/quality_log_tweets.csv"
 
 
@@ -59,7 +59,8 @@ df["text_length"] = df["clean_text"].apply(text_length)
 # Filtrage
 df_clean = df[
     ~df["screen_name_clean"].isin(EXCLUDED_ACCOUNTS) &
-    ~df["name_clean"].isin(EXCLUDED_ACCOUNTS)
+    ~df["name_clean"].isin(EXCLUDED_ACCOUNTS)&
+    df["in_reply_to"].isna()
 ].copy()
 
 print(f"✅ {len(df) - len(df_clean)} comptes officiels exclus.")
