@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 
 # --- IO ---
-INPUT_CSV  = "../data/gold/tweets_classified_1.csv"     # ton fichier actuel
+INPUT_CSV  = "../data/gold/tweets_classified_2.csv"     # ton fichier actuel
 OUTPUT_CSV = "../data/gold/tweets_classified_clean_1.csv"
 
 # --- Vocabulaire canonique ---
