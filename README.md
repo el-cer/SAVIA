@@ -114,9 +114,14 @@ npm install
 npm run dev
 ```
 ## 5. Dashboard
- Voici la première page du dashboard.
+Voici la première page du dashboard.
  
 ![Dashboard SAVIA](./images/Screen_dashboard.png)
+
+Et la deuxième.
+
+![Dashboard SAVIA](./images/dashboard_page2_v1.png)
+
 
 
 
