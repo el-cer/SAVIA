@@ -13,7 +13,7 @@ print(PROJECT_ROOT)
 CSV_PATH = os.path.join(PROJECT_ROOT, "data", "silver", "tweets_cleaned_1.csv")
 
 df = pd.read_csv(CSV_PATH)
-tweet = df[df["id"]==1832314710995226750]["clean_text"].values[0]
+tweet = df[df["id"]==1814368963826164172]["clean_text"].values[0]
 
 CLASSIFICATION_CONTEXT = (
     "Tu es un assistant expert du Service Après-Vente (SAV) de l’opérateur Free. "
@@ -41,6 +41,7 @@ CLASSIFICATION_CONTEXT = (
     "- Si le texte évoque **facture, prélèvement, paiement, compte client**, choisis domaine='facture'.\n"
     "- Si le texte mentionne **mot de passe, piratage, sécurité**, choisis sous_domaine='sécurité'.\n"
     "- Si le tweet est un **mème, une blague, ou hors sujet technique**, choisis toujours 'problème non avéré'.\n\n"
+    "- Si un tweet exprime une similarité avec un autre (par exemple “idem”, “pareil pour moi”, “moi aussi”), on privilégie alors la catégorie 'problème avéré'.\n"
 
     "🧠 Analyse le texte avec bon sens. Ne crée jamais de nouvelles catégories. "
     "Sois sobre, rigoureux et évite toute surclassification."

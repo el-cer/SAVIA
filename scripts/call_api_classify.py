@@ -35,7 +35,8 @@ CLASSIFICATION_CONTEXT = (
     "- Si le texte parle de **carte SIM, 4G, 5G, appels, SMS**, choisis domaine='mobile', sous_domaine='appel voix' ou 'réseau'.\n"
     "- Si le texte évoque **facture, prélèvement, paiement, compte client**, choisis domaine='facture'.\n"
     "- Si le texte mentionne **mot de passe, piratage, sécurité**, choisis sous_domaine='sécurité'.\n"
-    "- Si le tweet est un **mème, une blague, ou hors sujet technique**, choisis toujours 'problème non avéré'.\n\n"
+    "- Si le tweet est un **mème, une blague, ou hors sujet technique**, choisis toujours 'problème non avéré'.\n"
+    "- Si un tweet exprime une similarité avec un autre (par exemple “idem”, “pareil pour moi”, “moi aussi”), on privilégie alors la catégorie 'problème avéré'.\n"
 
     "🧠 Analyse le texte avec bon sens. Ne crée jamais de nouvelles catégories. "
     "Sois sobre, rigoureux et évite toute surclassification."
