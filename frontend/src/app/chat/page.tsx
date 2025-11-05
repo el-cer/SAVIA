@@ -117,8 +117,8 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
           <DropdownTailwind selected={selectedModel} onSelect={(val) => setSelectedModel(val)} />
         </div>
         <div className="flex gap-4 text-gray-500">
-          <button title="Langue">🌐</button>
-          <button title="Aide">❓</button>
+          <button title="Langue"><Image src="/langue.svg" alt="langue logo" width={32} height={32} className="" /></button>
+          <button title="Account"><Image src="/user-icone.svg" alt="user icone" width={32} height={32} className="" /></button>
         </div>
       </header>
 
@@ -187,8 +187,11 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
               disabled={loading}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 text-white shadow-md transition"
             >
-              ➤
+              <Image src="/Arrow-up.svg" alt="arrow icone" width={20} height={20} className="" />
             </button>
+          </div>
+          <div className="Disclaimer">
+              SAVIA peut commettre des erreurs. Il est recommandé de vérifier les informations importantes. 
           </div>
         </footer>
       )}
