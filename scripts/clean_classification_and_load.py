@@ -6,8 +6,8 @@ import pandas as pd
 from datetime import datetime
 
 # --- IO ---
-INPUT_CSV  = "../data/gold/tweets_classified_2.csv"     # ton fichier actuel
-OUTPUT_CSV = "../data/gold/tweets_classified_clean_1.csv"
+INPUT_CSV  = "../data/gold/tweets_classified_2_final.csv"     # ton fichier actuel
+OUTPUT_CSV = "../data/gold/tweets_classified_clean_final_théthé.csv"
 
 # --- Vocabulaire canonique ---
 LABELS_CANON = ["problème avéré", "problème non avéré", "inconnu"]
@@ -54,9 +54,9 @@ def strip_accents(s: str) -> str:
     return s
 
 def pick_first_token(s: str) -> str:
-    if not s:
-        return s
-    s = s.strip()
+    if pd.isna(s):
+        return ""
+    s = str(s).strip()
     if s.startswith('["') or s.startswith("['"):
         s = s.strip("[]'\"")
     if "/" in s:
