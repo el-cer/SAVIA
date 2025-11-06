@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 API_URL = "https://saviapi.win/classify"
 INPUT_CSV = "../data/silver/tweets_cleaned_1.csv"
-OUTPUT_CSV = "../data/gold/tweets_classified_2.csv"
+OUTPUT_CSV = "../data/gold/tweets_classified_2_test_tété.csv"
 MODEL = "Mistral-7B-Instruct"
 
 CLASSIFICATION_CONTEXT = (
