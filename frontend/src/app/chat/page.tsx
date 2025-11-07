@@ -5,6 +5,8 @@ import TypingLoader from "@/app/components/TypingLoader";
 import DropdownTailwind from "@/app/components/DropdownTailwind";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
+import remarkGfm from "remark-gfm";
+
 
 export default function ChatPage() {
   const [input, setInput] = useState("");
@@ -14,13 +16,15 @@ export default function ChatPage() {
   const [step, setStep] = useState<"categorie" | "sousCategorie" | "description" | "chat">("categorie");
   const [selectedService, setSelectedService] = useState("");
   const [selectedIssue, setSelectedIssue] = useState("");
+  const [userFeedback, setUserFeedback] = useState<"pending" | "yes" | "no" | null>(null);
+  
 
   const subCategories: Record<string, string[]> = {
     Box: ["Wi-Fi", "TV", "Alimentation", "Internet"],
     Mobile: ["Réseau", "Forfait", "Appels", "Data"],
   };
 
-  const sendMessage = async (apiPrompt: string) => {
+const sendMessage = async (apiPrompt: string) => {
     setLoading(true);
     try {
       const res = await fetch("https://saviapi.win/chat_sav", {
@@ -59,6 +63,19 @@ export default function ChatPage() {
     }
   };
 
+  const formatNumberedAnswer = (raw: string) => {
+    if (!raw) return raw;
+
+    let text = raw.replace(/\r\n/g, "\n").trim();
+    text = text.replace(/(^|\s)(\d+)\.\s*/g, (match, prefix, num) => {
+      if (prefix.includes("\n")) return `${prefix}${num}. `;
+      if (prefix === "") return `${num}. `;
+      return `${prefix}\n${num}. `;
+    });
+    text = text.replace(/\n{3,}/g, "");
+    return text;
+  };
+
   const handleCategorieClick = (service: string) => {
     setSelectedService(service);
     setHistory((prev) => [
@@ -94,6 +111,8 @@ Type de problème : ${selectedIssue || "Autres"}
 Description : ${input}
 Donne une réponse claire, empathique et réaliste (sans inventer).
 `.trim();
+    setUserFeedback(null);
+
     const userVisibleMessage = input.trim();
     setHistory((prev) => [...prev, { question: userVisibleMessage, answer: "" }]);
     setInput("");
@@ -117,28 +136,86 @@ Donne une réponse claire, empathique et réaliste (sans inventer).
           <DropdownTailwind selected={selectedModel} onSelect={(val) => setSelectedModel(val)} />
         </div>
         <div className="flex gap-4 text-gray-500">
-          <button title="Langue"><Image src="/langue.svg" alt="langue logo" width={32} height={32} className="" /></button>
-          <button title="Account"><Image src="/user-icone.svg" alt="user icone" width={32} height={32} className="" /></button>
-        </div>
+          <button title="Langue"><Image className="icone" src="/langue.svg" alt="langue logo" width={32} height={32} /></button>
+          <button title="Account"><Image className="icone" src="/user-icone.svg" alt="user icone" width={32} height={32} /></button>
+        </div> 
       </header>
 
       <section className="flex-1 max-w-2xl w-full mx-auto px-4 py-8 overflow-y-auto">
         {history.map((entry, i) => (
-          <div key={i} className="mb-6">
-            {entry.question && (
-              <div className="text-right mb-2">
-                <div className="inline-block bg-red-50 border border-red-100 px-4 py-2 rounded-xl shadow-sm">
-                  {entry.question}
-                </div>
-              </div>
-            )}
-            <div className="text-left whitespace-pre-wrap">
-              <div className="inline-block bg-gray-50 border px-4 py-3 rounded-xl shadow-sm text-gray-800 prose prose-sm max-w-none">
-                <ReactMarkdown>{entry.answer}</ReactMarkdown>
-              </div>
+    <div key={i} className="mb-6">
+      {/* Question utilisateur */}
+      {entry.question && (
+        <div className="text-right mb-2">
+          <div className="inline-block bg-red-50 border border-red-100 px-4 py-2 rounded-xl shadow-sm">
+            {entry.question}
+          </div>
+        </div>
+      )}
+
+      {/* Réponse LLM */}
+      {entry.answer !== undefined && (
+  <div className="text-left whitespace-pre-wrap">
+    <div className="inline-block bg-gray-50 border px-4 py-3 rounded-xl shadow-sm text-gray-800 prose prose-sm max-w-none">
+      {loading && entry.answer === "" ? (
+        <div className="flex gap-1 justify-start items-center text-gray-400">
+          <span className="w-2 h-2 bg-gray-600 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+          <span className="w-2 h-2 bg-gray-600 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+          <span className="w-2 h-2 bg-gray-600 rounded-full animate-bounce"></span>
+        </div>
+      ) : (
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {formatNumberedAnswer(entry.answer)}
+        </ReactMarkdown>
+      )}
+    </div>
+  </div>
+)}
+
+      {/* OUI / NON */}
+      {i === history.length - 1 &&
+        step === "chat" &&
+        entry.answer &&
+        userFeedback === null && (
+          <div className="mt-5 text-center">
+            <p className="mb-3 text-gray-700 font-medium">
+              Avez-vous résolu votre problème ?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setUserFeedback("yes")}
+                className="px-6 py-2 bg-[#0EBE34] text-white rounded-full shadow-md hover:bg-green-600 transition"
+              >
+                Oui
+              </button>
+              <button
+                onClick={() => setUserFeedback("no")}
+                className="px-6 py-2 bg-red-600 text-white rounded-full shadow-md hover:bg-red-700 transition"
+              >
+                Non
+              </button>
             </div>
           </div>
-        ))}
+        )}
+
+      {/* Message final */}
+      {i === history.length - 1 && userFeedback === "yes" && (
+        <div className="mt-4 text-center text-gray-700">
+          <p>Parfait 😄 ! Ravi d’avoir pu vous aider.</p>
+          <p>N’hésitez pas à poser d’autres questions si besoin.</p>
+        </div>
+      )}
+
+      {i === history.length - 1 && userFeedback === "no" && (
+        <div className="mt-4 text-center text-gray-700">
+          <p>Merci pour votre retour 🙏</p>
+          <p>
+            Un conseiller humain va vous recontacter dans les plus brefs délais.
+          </p>
+        </div>
+      )}
+    </div>
+  ))}
 
         {step === "categorie" && (
           <div className="flex flex-wrap gap-3 justify-center mt-6">
