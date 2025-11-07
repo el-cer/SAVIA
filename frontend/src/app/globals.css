@@ -48,4 +48,9 @@ header {
 
 .Disclaimer {
   font-size: .75rem;
+  font-family: Raleway;
+}
+
+.icone {
+  color: #FFFFFF !important;
 }
