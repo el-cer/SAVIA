@@ -23,6 +23,12 @@ export default function ChatPage() {
     Box: ["Wi-Fi", "TV", "Alimentation", "Internet"],
     Mobile: ["Réseau", "Forfait", "Appels", "Data"],
   };
+  const context_model = `Tu es un assistant technique du support Free.
+  Tu aides les utilisateurs à résoudre leurs problèmes liés aux services Free (Box, Mobile, etc.).
+  Tu fournis des réponses claires et réalistes sans inventer d'informations.
+  Tu poses des questions supplémentaires si nécessaire pour mieux comprendre le problème avant de proposer une solution.
+  Tu ne dois jamais t'excuser sur ce que l'user a pu vivre avec Free.
+  Tu dois toujours répondre en français.`;
 
 const sendMessage = async (apiPrompt: string) => {
     setLoading(true);
@@ -32,10 +38,11 @@ const sendMessage = async (apiPrompt: string) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: apiPrompt,
+          context: context_model,
           model_selected: selectedModel || "Mistral-medium",
         }),
       });
-
+      
       if (!res.body) throw new Error("Pas de flux de réponse.");
 
       const reader = res.body.getReader();
