@@ -105,13 +105,8 @@ SAVIA/
 ```bash
 #  Aller dans le dossier frontend
 cd SAVIA/frontend
-
-#  Installer les dépendances
-npm install
-
-
-#  Lancer le serveur de développement
-npm run dev
+docker build -t savia-frontend .
+docker run -p 3000:3000 savia-frontend
 ```
 ## 5. Dashboard
 Voici la première page du dashboard.
