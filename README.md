@@ -111,11 +111,12 @@ docker run -p 3000:3000 savia-frontend
 ## 5. Dashboard
 Voici la première page du dashboard.
  
-![Dashboard SAVIA](./images/Screen_dashboard.png)
+![Dashboard SAVIA](./images/dashboard_1.png)
 
 Et la deuxième.
 
-![Dashboard SAVIA](./images/dashboard_page2_v1.png)
+![Dashboard SAVIA](./images/dashboard_2.png)
+
 
 
 
