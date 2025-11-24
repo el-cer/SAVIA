@@ -108,6 +108,7 @@ cd SAVIA/frontend
 docker build -t savia-frontend .
 docker run -p 3000:3000 savia-frontend
 ```
+Vous pouvez voir la code review dans le dossier code review.
 ## 5. Dashboard
 Voici la première page du dashboard.
  
@@ -116,6 +117,7 @@ Voici la première page du dashboard.
 Et la deuxième.
 
 ![Dashboard SAVIA](./images/dashboard_2.png)
+
 
 
 
