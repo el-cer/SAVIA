@@ -41,7 +41,7 @@ Deux modes de modèles sont pris en charge :
 - **Cloud** : Mistral Medium API (appel distant pour une meilleure précision)
 
 ### Pipeline de traitement
-Implémenté en **Python**, il repose sur les bibliothèques `pandas`, `regex`, `unicodedata`, `nltk` et `spacy`.  
+Implémenté en **Python**, il repose sur les bibliothèques `pandas`, `re`.  
 Il est structuré selon une approche ETL classique :
 
 1. **Cleaning** — Suppression des mentions, hashtags, URLs, emojis et caractères spéciaux  
@@ -116,6 +116,7 @@ Voici la première page du dashboard.
 Et la deuxième.
 
 ![Dashboard SAVIA](./images/dashboard_2.png)
+
 
 
 
